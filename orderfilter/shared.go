@@ -164,7 +164,7 @@ func (f *Filter) ValidatePubSubMessageV3(ctx context.Context, sender peer.ID, ms
 	return isValid
 }
 
-// ValidatePubSubMessageV3 is an implementation of pubsub.Validator and will
+// ValidatePubSubMessageV4 is an implementation of pubsub.Validator and will
 // return true if the contents of the message pass the message JSON Schema.
 func (f *Filter) ValidatePubSubMessageV4(ctx context.Context, sender peer.ID, msg *pubsub.Message) bool {
 	isValid, err := f.MatchOrderMessageV4JSON(msg.Data)
@@ -202,29 +202,10 @@ func (f *Filter) generateEncodedSchemaV3() string {
 }
 
 func (f *Filter) generateEncodedSchemaV4() string {
-	// Note(albrow): We use canonicaljson to eliminate any differences in spacing,
-	// formatting, and the order of field names. This ensures that two filters
-	// that are semantically the same JSON object always encode to exactly the
-	// same canonical topic string.
-	//
-	// So for example:
-	//
-	//     {
-	//         "foo": "bar",
-	//         "biz": "baz"
-	//     }
-	//
-	// Will encode to the same topic string as:
-	//
-	//     {
-	//         "biz":"baz",
-	//         "foo":"bar"
-	//     }
-	//
 	var holder interface{} = struct{}{}
-	_ = canonicaljson.Unmarshal([]byte(f.rawCustomOrderSchemaV3), &holder)
-	canonicalOrderSchemaV3JSON, _ := canonicaljson.Marshal(holder)
-	return base64.URLEncoding.EncodeToString(canonicalOrderSchemaV3JSON)
+	_ = canonicaljson.Unmarshal([]byte(f.rawCustomOrderSchemaV4), &holder)
+	canonicalOrderSchemaV4JSON, _ := canonicaljson.Marshal(holder)
+	return base64.URLEncoding.EncodeToString(canonicalOrderSchemaV4JSON)
 }
 
 // NOTE(jalextowle): Due to the discrepancy between orderfilters used in browser

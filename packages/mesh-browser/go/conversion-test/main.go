@@ -485,7 +485,8 @@ func setGlobals() {
 			return []interface{}{
 				types.Stats{
 					Version:             "development",
-					PubSubTopics:        []string{"someTopic"},
+					PubSubTopicV3:        "v3Topic",
+					PubSubTopicV4:        "v4Topic",
 					Rendezvous:          "/0x-mesh/network/1337/version/2",
 					SecondaryRendezvous: []string{"/0x-custom-filter-rendezvous/version/2/chain/1337/schema/someTopic"},
 					PeerID:              "16Uiu2HAmGd949LwaV4KNvK2WDSiMVy7xEmW983VH75CMmefmMpP7",
@@ -673,7 +674,8 @@ func setGlobals() {
 				EthereumRPCMaxRequestsPerSecond:  30,
 				EnableEthereumRPCRateLimiting:    true,
 				MaxOrdersInStorage:               100000,
-				CustomOrderFilter:                orderfilter.DefaultCustomOrderSchema,
+				CustomOrderFilterV3:                orderfilter.DefaultCustomOrderSchema,
+				CustomOrderFilterV4:                orderfilter.DefaultCustomOrderSchema,
 				EthereumChainID:                  1337,
 				MaxBytesPerSecond:                5242880,
 			}, "", false)
@@ -690,7 +692,8 @@ func setGlobals() {
 				EthereumRPCMaxRequestsPerSecond:  12,
 				EnableEthereumRPCRateLimiting:    false,
 				MaxOrdersInStorage:               500000,
-				CustomOrderFilter:                `{"id":"/foobarbaz"}`,
+				CustomOrderFilterV3:              `{"id":"/foo"}`,
+				CustomOrderFilterV4:              `{"id":"/bar"}`,
 				CustomContractAddresses:          "{\"exchange\":\"0x48bacb9266a570d521063ef5dd96e61686dbe788\",\"devUtils\":\"0x38ef19fdf8e8415f18c307ed71967e19aac28ba1\",\"erc20Proxy\":\"0x1dc4c1cefef38a777b15aa20260a54e584b16c48\",\"erc721Proxy\":\"0x1d7022f5b17d2f8b695918fb48fa1089c9f85401\",\"erc1155Proxy\":\"0x64517fa2b480ba3678a2a3c0cf08ef7fd4fad36f\"}",
 				EthereumChainID:                  1337,
 				EthereumRPCURL:                   "http://localhost:8545",

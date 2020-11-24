@@ -956,7 +956,7 @@ func (app *App) AddOrders(ctx context.Context, signedOrders []*zeroex.SignedOrde
 }
 
 // FIXME(jalextowle): We will likely need to pull out version specific logic of AddOrdersRaw out so that
-// the p2p package can use it's knowledge of the order JSON schema to avoid inefficient decoding strategies
+// the p2p package can use its knowledge of the order JSON schema to avoid inefficient decoding strategies
 //
 // AddOrdersRaw is like AddOrders but accepts raw JSON messages.
 func (app *App) AddOrdersRaw(ctx context.Context, signedOrdersRaw []*json.RawMessage, opts *types.AddOrdersOpts) (*ordervalidator.ValidationResults, error) {
@@ -970,7 +970,7 @@ func (app *App) AddOrdersRaw(ctx context.Context, signedOrdersRaw []*json.RawMes
 	schemaValidOrders := []*zeroex.SignedOrder{}
 	for _, signedOrderRaw := range signedOrdersRaw {
 		signedOrderBytes := []byte(*signedOrderRaw)
-		// FIXME(jalextowle): We need a better solution for v4 orders
+		// TODO(mason): deal with v4 orders!!!
 		result, err := app.orderFilter.ValidateOrderV3JSON(signedOrderBytes)
 		if err != nil {
 			signedOrder := &zeroex.SignedOrder{}
