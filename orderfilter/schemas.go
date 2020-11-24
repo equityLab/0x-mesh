@@ -19,7 +19,7 @@ const (
 	rootOrderMessageSchemaV3 = `{"$id":"/rootOrderMessageV3","properties":{"messageType":{"type":"string","pattern":"order"},"order":{"$ref":"/rootOrderV3"},"topics":{"type":"array","minItems":1,"items":{"type":"string"}}},"required":["messageType","order","topics"]}`
 
 	// V4 Root schemas
-	rootOrderSchemaV4 = `{"$id":"/rootOrderV4","allOf":[{"$ref":"/customOrderV4"},{"$ref":"/signedOrderV4"}]}`
+	rootOrderSchemaV4        = `{"$id":"/rootOrderV4","allOf":[{"$ref":"/customOrderV4"},{"$ref":"/signedOrderV4"}]}`
 	rootOrderMessageSchemaV4 = `{"$id":"/rootOrderMessageV4","properties":{"messageType":{"type":"string","pattern":"order"},"order":{"$ref":"/rootOrderV4"},"topics":{"type":"array","minItems":1,"items":{"type":"string"}}},"required":["messageType","order","topics"]}`
 
 	// DefaultCustomOrderSchema is the default schema for /customOrderV3 and

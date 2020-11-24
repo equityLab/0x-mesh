@@ -485,8 +485,8 @@ func setGlobals() {
 			return []interface{}{
 				types.Stats{
 					Version:             "development",
-					PubSubTopicV3:        "v3Topic",
-					PubSubTopicV4:        "v4Topic",
+					PubSubTopicV3:       "v3Topic",
+					PubSubTopicV4:       "v4Topic",
 					Rendezvous:          "/0x-mesh/network/1337/version/2",
 					SecondaryRendezvous: []string{"/0x-custom-filter-rendezvous/version/2/chain/1337/schema/someTopic"},
 					PeerID:              "16Uiu2HAmGd949LwaV4KNvK2WDSiMVy7xEmW983VH75CMmefmMpP7",
@@ -674,8 +674,8 @@ func setGlobals() {
 				EthereumRPCMaxRequestsPerSecond:  30,
 				EnableEthereumRPCRateLimiting:    true,
 				MaxOrdersInStorage:               100000,
-				CustomOrderFilterV3:                orderfilter.DefaultCustomOrderSchema,
-				CustomOrderFilterV4:                orderfilter.DefaultCustomOrderSchema,
+				CustomOrderFilterV3:              orderfilter.DefaultCustomOrderSchema,
+				CustomOrderFilterV4:              orderfilter.DefaultCustomOrderSchema,
 				EthereumChainID:                  1337,
 				MaxBytesPerSecond:                5242880,
 			}, "", false)

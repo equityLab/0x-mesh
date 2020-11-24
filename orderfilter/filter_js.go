@@ -21,11 +21,11 @@ type Filter struct {
 	messageValidatorV4     js.Value
 	encodedSchemaV3        string
 	encodedSchemaV4        string
-	chainID              int
+	chainID                int
 	rawCustomOrderSchemaV3 string
 	rawCustomOrderSchemaV4 string
 	exchangeAddressV3      common.Address
-	exchangeAddressV4     common.Address
+	exchangeAddressV4      common.Address
 }
 
 func New(chainID int, customOrderSchemaV3 string, customOrderSchemaV4 string, contractAddresses ethereum.ContractAddresses) (*Filter, error) {
@@ -93,7 +93,7 @@ func New(chainID int, customOrderSchemaV3 string, customOrderSchemaV4 string, co
 	return &Filter{
 		orderValidatorV3:       orderValidatorV3,
 		messageValidatorV3:     messageValidatorV3,
-		chainID:              chainID,
+		chainID:                chainID,
 		rawCustomOrderSchemaV3: customOrderSchemaV3,
 		exchangeAddressV3:      contractAddresses.ExchangeV3,
 		orderValidatorV4:       orderValidatorV4,

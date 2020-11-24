@@ -30,8 +30,8 @@ var (
 	rootOrderMessageSchemaV3Loader = jsonschema.NewStringLoader(rootOrderMessageSchemaV3)
 
 	// V4 Root schemas
-	rootOrderSchemaV4Loader = jsonschema.NewStringLoader(rootOrderSchemaV4)
-	// rootOrderMessageSchemaV4Loader = jsonschema.NewStringLoader(rootOrderMessageSchemaV4)
+	rootOrderSchemaV4Loader        = jsonschema.NewStringLoader(rootOrderSchemaV4)
+	rootOrderMessageSchemaV4Loader = jsonschema.NewStringLoader(rootOrderMessageSchemaV4)
 )
 
 var builtInSchemasV3 = []jsonschema.JSONLoader{
@@ -108,7 +108,7 @@ func New(chainID int, customOrderSchemaV3 string, customOrderSchemaV4 string, co
 	if err := messageV4Loader.AddSchemas(rootOrderSchemaV4Loader); err != nil {
 		return nil, err
 	}
-	compiledRootOrderMessageSchemaV4, err := messageV4Loader.Compile(rootOrderMessageSchemaV3Loader)
+	compiledRootOrderMessageSchemaV4, err := messageV4Loader.Compile(rootOrderMessageSchemaV4Loader)
 	if err != nil {
 		return nil, err
 	}
