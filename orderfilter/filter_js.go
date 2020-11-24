@@ -22,9 +22,9 @@ type Filter struct {
 	exchangeAddress      common.Address
 }
 
-func New(chainID int, customOrderSchema string, contractAddresses ethereum.ContractAddresses) (*Filter, error) {
+func New(chainID int, customOrderSchemaV3 string, customOrderSchemaV4 string, contractAddresses ethereum.ContractAddresses) (*Filter, error) {
 	chainIDSchema := fmt.Sprintf(`{"$id": "/chainId", "const":%d}`, chainID)
-	exchangeAddressSchema := fmt.Sprintf(`{"$id": "/exchangeAddress", "enum":[%q,%q]}`, contractAddresses.Exchange.Hex(), strings.ToLower(contractAddresses.Exchange.Hex()))
+	exchangeAddressSchema := fmt.Sprintf(`{"$id": "/exchangeAddress", "enum":[%q,%q]}`, contractAddresses.ExchangeV3.Hex(), strings.ToLower(contractAddresses.ExchangeV3.Hex()))
 
 	if jsutil.IsNullOrUndefined(js.Global().Get("__mesh_createSchemaValidator__")) {
 		return nil, errors.New(`"__mesh_createSchemaValidator__" has not been set on the Javascript "global" object`)
@@ -33,20 +33,21 @@ func New(chainID int, customOrderSchema string, contractAddresses ethereum.Contr
 	// defines their order of compilation.
 	schemaValidator := js.Global().Call(
 		"__mesh_createSchemaValidator__",
-		customOrderSchema,
+		customOrderSchemaV3,
 		[]interface{}{
 			addressSchema,
 			wholeNumberSchema,
 			hexSchema,
 			chainIDSchema,
 			exchangeAddressSchema,
-			orderSchema,
-			signedOrderSchema,
+			orderSchemaV3,
+			signedOrderSchemaV3,
 		},
 		[]interface{}{
-			rootOrderSchema,
-			rootOrderMessageSchema,
+			rootOrderSchemaV3,
+			rootOrderMessageSchemaV3,
 		})
+	// TODO(mason) the above, but for v4.
 	orderValidator := schemaValidator.Get("orderValidator")
 	if jsutil.IsNullOrUndefined(orderValidator) {
 		return nil, errors.New(`"orderValidator" has not been set on the provided "schemaValidator"`)
@@ -59,7 +60,7 @@ func New(chainID int, customOrderSchema string, contractAddresses ethereum.Contr
 		orderValidator:       orderValidator,
 		messageValidator:     messageValidator,
 		chainID:              chainID,
-		rawCustomOrderSchema: customOrderSchema,
-		exchangeAddress:      contractAddresses.Exchange,
+		rawCustomOrderSchema: customOrderSchemaV3,
+		exchangeAddress:      contractAddresses.ExchangeV3,
 	}, nil
 }

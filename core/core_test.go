@@ -76,7 +76,7 @@ func TestConfigChainIDAndRPCMatchDetection(t *testing.T) {
 		EthereumRPCMaxRequestsPer24HrUTC: 99999999999999,
 		EthereumRPCMaxRequestsPerSecond:  99999999999999,
 		MaxOrdersInStorage:               100000,
-		CustomOrderFilter:                "{}",
+		CustomOrderFilterV3:              "{}",
 	}
 	app, err := New(ctx, config)
 	require.NoError(t, err)
@@ -113,7 +113,7 @@ func newTestAppWithPrivateConfig(t *testing.T, ctx context.Context, customOrderF
 		EthereumRPCMaxRequestsPer24HrUTC: 99999999999999,
 		EthereumRPCMaxRequestsPerSecond:  99999999999999,
 		MaxOrdersInStorage:               100000,
-		CustomOrderFilter:                customOrderFilter,
+		CustomOrderFilterV3:              customOrderFilter,
 	}
 	app, err := newWithPrivateConfig(ctx, config, pConfig)
 	require.NoError(t, err)
@@ -164,7 +164,7 @@ func TestRepeatedAppInitialization(t *testing.T) {
 		EthereumRPCMaxRequestsPer24HrUTC: 99999999999999,
 		EthereumRPCMaxRequestsPerSecond:  99999999999999,
 		MaxOrdersInStorage:               100000,
-		CustomOrderFilter:                "{}",
+		CustomOrderFilterV3:              "{}",
 		CustomContractAddresses:          `{"exchange":"0x48bacb9266a570d521063ef5dd96e61686dbe788","devUtils":"0x38ef19fdf8e8415f18c307ed71967e19aac28ba1","erc20Proxy":"0x1dc4c1cefef38a777b15aa20260a54e584b16c48","erc721Proxy":"0x1d7022f5b17d2f8b695918fb48fa1089c9f85401","erc1155Proxy":"0x64517fa2b480ba3678a2a3c0cf08ef7fd4fad36f"}`,
 	}
 	_, err := New(ctx, config)
@@ -288,7 +288,7 @@ func runOrdersyncTestCase(testCase ordersyncTestCase) func(t *testing.T) {
 		// We have to wait for latest block to be processed by the Mesh node.
 		time.Sleep(blockProcessingWaitTime)
 
-		results, err := originalNode.orderWatcher.ValidateAndStoreValidOrders(ctx, originalOrders, constants.TestChainID, true, &types.AddOrdersOpts{})
+		results, err := originalNode.orderWatcher.ValidateAndStoreValidOrders(ctx, originalOrders, &types.AddOrdersOpts{Pinned: true})
 		require.NoError(t, err)
 		require.Empty(t, results.Rejected, "tried to add orders but some were invalid: \n%s\n", spew.Sdump(results))
 
@@ -351,9 +351,11 @@ func runOrdersyncTestCase(testCase ordersyncTestCase) func(t *testing.T) {
 		require.NoError(t, err)
 		assert.Len(t, newNodeOrdersResp.OrdersInfos, len(filteredOrders), "new node should have %d orders", len(originalOrders))
 		for _, expectedOrder := range filteredOrders {
-			orderHash, err := expectedOrder.ComputeOrderHash()
+			// FIXME
+			orderHash, err := expectedOrder.Order.(*zeroex.OrderV3).ComputeOrderHash()
 			require.NoError(t, err)
-			expectedOrder.ResetHash()
+			// FIXME
+			expectedOrder.Order.(*zeroex.OrderV3).ResetHash()
 			dbOrder, err := newNode.db.GetOrder(orderHash)
 			require.NoError(t, err)
 			actualOrder := dbOrder.SignedOrder()
