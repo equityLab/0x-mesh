@@ -23,6 +23,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// failinggggg
 func TestAddOrdersSuccess(t *testing.T) {
 	teardownSubTest := setupSubTest(t)
 	defer teardownSubTest(t)
@@ -228,6 +229,11 @@ func TestFindOrders(t *testing.T) {
 	wg.Wait()
 }
 
+// graphql_integration_test.go:241:
+// 			Error Trace:	graphql_integration_test.go:241
+// 			Error:      	Received unexpected error:
+// 										graphql: Cannot query field "pubSubTopics" on type "Stats". Did you mean "pubSubTopicsV3" or "pubSubTopicsV4"?
+// 			Test:       	TestGetStats
 func TestGetStats(t *testing.T) {
 	teardownSubTest := setupSubTest(t)
 	defer teardownSubTest(t)
