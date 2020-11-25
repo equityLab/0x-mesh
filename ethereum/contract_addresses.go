@@ -99,7 +99,10 @@ func ValidateContractAddressesForChainID(chainID int, addresses ContractAddresse
 		return fmt.Errorf("cannot add contract addresses for chainID 1: addresses for mainnet are hard-coded and cannot be changed")
 	}
 	if addresses.ExchangeV3 == constants.NullAddress {
-		return fmt.Errorf("cannot add contract addresses for chain ID %d: Exchange address is required", chainID)
+		return fmt.Errorf("cannot add contract addresses for chain ID %d: ExchangeV3 address is required", chainID)
+	}
+	if addresses.ExchangeV4 == constants.NullAddress {
+		return fmt.Errorf("cannot add contract addresses for chain ID %d: ExchangeV4 address is required", chainID)
 	}
 	if addresses.DevUtils == constants.NullAddress {
 		return fmt.Errorf("cannot add contract addresses for chain ID %d: DevUtils address is required", chainID)

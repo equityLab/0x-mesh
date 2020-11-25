@@ -7,7 +7,78 @@ const (
 	hexSchema         = `{"$id":"/hex","type":"string","pattern":"^0x(([0-9a-fA-F][0-9a-fA-F])+)?$"}`
 
 	// V3 Order schemas
-	orderSchemaV3       = `{"$id":"/orderV3","properties":{"makerAddress":{"$ref":"/address"},"takerAddress":{"$ref":"/address"},"makerFee":{"$ref":"/wholeNumber"},"takerFee":{"$ref":"/wholeNumber"},"senderAddress":{"$ref":"/address"},"makerAssetAmount":{"$ref":"/wholeNumber"},"takerAssetAmount":{"$ref":"/wholeNumber"},"makerAssetData":{"$ref":"/hex"},"takerAssetData":{"$ref":"/hex"},"makerFeeAssetData":{"$ref":"/hex"},"takerFeeAssetData":{"$ref":"/hex"},"salt":{"$ref":"/wholeNumber"},"feeRecipientAddress":{"$ref":"/address"},"expirationTimeSeconds":{"$ref":"/wholeNumber"},"exchangeAddress":{"$ref":"/exchangeAddress"},"chainId":{"$ref":"/chainId"}},"required":["makerAddress","takerAddress","makerFee","takerFee","senderAddress","makerAssetAmount","takerAssetAmount","makerAssetData","takerAssetData","makerFeeAssetData","takerFeeAssetData","salt","feeRecipientAddress","expirationTimeSeconds","exchangeAddress","chainId"],"type":"object"}`
+	orderSchemaV3 = `{
+  "$id": "/orderV3",
+  "properties": {
+    "makerAddress": {
+      "$ref": "/address"
+    },
+    "takerAddress": {
+      "$ref": "/address"
+    },
+    "makerFee": {
+      "$ref": "/wholeNumber"
+    },
+    "takerFee": {
+      "$ref": "/wholeNumber"
+    },
+    "senderAddress": {
+      "$ref": "/address"
+    },
+    "makerAssetAmount": {
+      "$ref": "/wholeNumber"
+    },
+    "takerAssetAmount": {
+      "$ref": "/wholeNumber"
+    },
+    "makerAssetData": {
+      "$ref": "/hex"
+    },
+    "takerAssetData": {
+      "$ref": "/hex"
+    },
+    "makerFeeAssetData": {
+      "$ref": "/hex"
+    },
+    "takerFeeAssetData": {
+      "$ref": "/hex"
+    },
+    "salt": {
+      "$ref": "/wholeNumber"
+    },
+    "feeRecipientAddress": {
+      "$ref": "/address"
+    },
+    "expirationTimeSeconds": {
+      "$ref": "/wholeNumber"
+    },
+    "exchangeAddress": {
+      "$ref": "/exchangeAddress"
+    },
+    "chainId": {
+      "$ref": "/chainId"
+    }
+  },
+  "required": [
+    "makerAddress",
+    "takerAddress",
+    "makerFee",
+    "takerFee",
+    "senderAddress",
+    "makerAssetAmount",
+    "takerAssetAmount",
+    "makerAssetData",
+    "takerAssetData",
+    "makerFeeAssetData",
+    "takerFeeAssetData",
+    "salt",
+    "feeRecipientAddress",
+    "expirationTimeSeconds",
+    "exchangeAddress",
+    "chainId"
+  ],
+  "type": "object"
+}`
 	signedOrderSchemaV3 = `{"$id":"/signedOrderV3","allOf":[{"$ref":"/orderV3"},{"properties":{"signature":{"$ref":"/hex"}},"required":["signature"]}]}`
 
 	// V4 Order schemas

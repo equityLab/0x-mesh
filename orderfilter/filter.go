@@ -131,14 +131,18 @@ func loadExchangeV3Address(loader *jsonschema.SchemaLoader, contractAddresses et
 	// Note that exchangeAddressSchema accepts both checksummed and
 	// non-checksummed (i.e. all lowercase) addresses.
 	exchangeAddressSchema := fmt.Sprintf(`{"enum":[%q,%q]}`, contractAddresses.ExchangeV3.Hex(), strings.ToLower(contractAddresses.ExchangeV3.Hex()))
+	// fmt.Println(exchangeAddressSchema)
 	return loader.AddSchema("/exchangeAddress", jsonschema.NewStringLoader(exchangeAddressSchema))
 }
 
 func loadExchangeV4Address(loader *jsonschema.SchemaLoader, contractAddresses ethereum.ContractAddresses) error {
-	// Note that exchangeAddressSchema accepts both checksummed and
-	// non-checksummed (i.e. all lowercase) addresses.
-	exchangeAddressSchema := fmt.Sprintf(`{"enum":[%q,%q]}`, contractAddresses.ExchangeV4.Hex(), strings.ToLower(contractAddresses.ExchangeV4.Hex()))
-	return loader.AddSchema("/exchange", jsonschema.NewStringLoader(exchangeAddressSchema))
+	checksummed_address := contractAddresses.ExchangeV4.Hex()
+	lower_case_address := strings.ToLower(checksummed_address)
+	enum_variants := []string{checksummed_address}
+	if checksummed_address != lower_case_address {
+		enum_variants = append(enum_variants, lower_case_address)
+	}
+	return loader.AddSchema("/exchange", jsonschema.NewStringLoader(fmt.Sprintf(`{"enum":%q}`, enum_variants)))
 }
 
 func loadChainID(loader *jsonschema.SchemaLoader, chainID int) error {
@@ -157,6 +161,7 @@ func newV3Loader(chainID int, customOrderSchemaV3 string, contractAddresses ethe
 	if err := loader.AddSchemas(builtInSchemasV3...); err != nil {
 		return nil, err
 	}
+	//TODO(mason) some error here!>!>!
 	if err := loader.AddSchema("/customOrderV3", jsonschema.NewStringLoader(customOrderSchemaV3)); err != nil {
 		return nil, err
 	}

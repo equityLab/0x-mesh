@@ -367,11 +367,12 @@ func testFilterMatchOrderMessageJSON(t *testing.T, generateFilter func(int, stri
 	}
 
 	for i, tc := range testCases {
-		tcInfo := fmt.Sprintf("test case %d\nchainID: %d\nschema: %s\nnote: %s", i, tc.chainID, tc.customOrderSchema, tc.note)
 		filter, err := generateFilter(tc.chainID, tc.customOrderSchema, DefaultCustomOrderSchema, contractAddresses)
 		require.NoError(t, err)
 		actualResult, err := filter.MatchOrderMessageV3JSON(tc.orderMessageJSON)
 		require.NoError(t, err, tc.customOrderSchema)
+
+		tcInfo := fmt.Sprintf("test case %d\nchainID: %d\nschema: %s\nnote: %s", i, tc.chainID, tc.customOrderSchema, tc.note)
 		assert.Equal(t, tc.expectedResult, actualResult, tcInfo)
 	}
 }
@@ -428,11 +429,12 @@ func testFilterTopic(t *testing.T, generateFilter func(int, string, string, ethe
 	}
 }
 
+// TODO(mason): both expected values should be arrays of strings.
 func TestDefaultOrderSchemaTopicV3(t *testing.T) {
 	chainID := 1337
 	defaultTopics, err := GetDefaultTopicV3(chainID, contractAddresses)
 	require.NoError(t, err)
-	expectedTopics := []string{"/0x-orders/version/3/chain/1337/schema/e30="}
+	expectedTopics := "/0x-orders/version/3/chain/1337/schema/e30="
 	assert.Equal(t, expectedTopics, defaultTopics, "the topic for the default filter should not change")
 }
 
@@ -440,6 +442,6 @@ func TestDefaultOrderSchemaTopicV4(t *testing.T) {
 	chainID := 1337
 	defaultTopics, err := GetDefaultTopicV4(chainID, contractAddresses)
 	require.NoError(t, err)
-	expectedTopics := []string{"/0x-orders/version/4/chain/1337/schema/e30="}
+	expectedTopics := "/0x-orders/version/4/chain/1337/schema/e30="
 	assert.Equal(t, expectedTopics, defaultTopics, "the topic for the default filter should not change")
 }

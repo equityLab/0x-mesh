@@ -129,7 +129,7 @@ func (f *Filter) RendezvousV3() string {
 
 func (f *Filter) RendezvousV4() string {
 	if f.encodedSchemaV4 == "" {
-		f.encodedSchemaV4 = f.generateEncodedSchemaV3()
+		f.encodedSchemaV4 = f.generateEncodedSchemaV4()
 	}
 	return fmt.Sprintf(fullRendezvousFormat, rendezvousVersionV4, f.chainID, f.encodedSchemaV4)
 }
